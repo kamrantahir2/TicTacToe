@@ -3,6 +3,7 @@ package com.company;
 import java.util.Scanner;
 
 public class App {
+    // Static variables to ensure the values are shared throughout the project.
     public static boolean xWon = false;
     public static boolean oWon = false;
     public static boolean finished = false;
@@ -23,12 +24,13 @@ public class App {
 
         int firstCooridinate = 0;
         int secondCoordinate = 0;
-
+        .
+        // Keeps looping through until a game over condition is met.
         while (true) {
             boolean nextIteration = false;
             boolean gameOver = false;
 
-
+            // Loops through the game board and counts the empty cells
             for (int i = 0; i < multiDArray.length; i++) {
                 for (int j = 0; j < multiDArray[i].length; j++) {
                     if (multiDArray[i][j].equals("_")) {
@@ -37,6 +39,8 @@ public class App {
                 }
             }
 
+            // If there is just one cell left this for loop iterates through the string and finds the empty cell and automatically inputs X or O depending on who's
+            // turn it is and checks the game over conditions.
             if (emptyCells <= 1) {
                 for (int i = 0; i < multiDArray.length; i++) {
                     for (int j = 0; j < multiDArray[i].length; j++) {
@@ -45,15 +49,15 @@ public class App {
                                 multiDArray[i][j] = "X";
                                 checkConditions(multiDArray);
                             } else {
-                                multiDArray[i][j] = "X";
+                                multiDArray[i][j] = "o";
                                 checkConditions(multiDArray);
                             }
                         }
                     }
                 }
             }
-
-            // System.out.println("Enter coordinates");
+            
+            // Makes sure the user inputs a number from 1 to 3 (inclusive).
             if (scanner.hasNextInt()) {
                 firstCooridinate = scanner.nextInt() - 1;
                 secondCoordinate = scanner.nextInt() - 1;
@@ -61,6 +65,7 @@ public class App {
                     System.out.println("Coordinates should be from 1 to 3!");
                     continue;
                 }
+                // We check to see if the cell that the user has selected is occupied
                 else if (multiDArray[firstCooridinate][secondCoordinate].equalsIgnoreCase("x") || multiDArray[firstCooridinate][secondCoordinate].equalsIgnoreCase("o")) {
                     System.out.println("This cell is occupied! Choose another one!");
                     continue;
@@ -69,14 +74,15 @@ public class App {
                 System.out.println("Numbers Only");
                 nextIteration = true;
                 scanner.next();
-//                scanner.next();
                 continue;
             }
 
+            // If the user inserts an invalid input we continue the loop so the xTurn and oTurn booleans aren't affected.
             if (nextIteration) {
                 continue;
             }
-
+            
+            // If the input is valid we check whose turn it is insert their selection into their desired cell
             if (xTurn && !oTurn) {
                 multiDArray[firstCooridinate][secondCoordinate] = "X";
                 xTurn = false;
@@ -122,6 +128,7 @@ public class App {
         boolean hasEmptyCells = false;
         int diff;
 
+        // We count how many turns each player has taken to ensure the game is played fairly.
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
                 if (input[i][j].equalsIgnoreCase("x")) {
@@ -129,23 +136,23 @@ public class App {
                 } else if (input[i][j].equalsIgnoreCase("o")) {
                     oCount ++;
                 } else if (input[i][j].equals("_")) {
-//                    input[i][j] = " ";
-
                     hasEmptyCells = true;
                 }
             }
         }
 
+        // If there are no more empty cells we end the game
         if (!hasEmptyCells) {
             App.finished = true;
         }
-
+        
         diff = Math.abs(xCount - oCount);
 
         checkDiagonal(input);
         checkHorizontal(input);
         checkVertical(input);
 
+        // Win conditions
         if ((App.xWon && App.oWon) || diff >= 2) {
             System.out.println("Impossible");
             App.finished = true;
@@ -162,9 +169,6 @@ public class App {
             System.out.println("Draw");
             App.finished = true;
         }
-        else if (!App.xWon && !App.oWon && hasEmptyCells) {
-            // System.out.println("Game not finished");
-        }
 
 
     }
@@ -174,9 +178,11 @@ public class App {
 
     // GAME STATE METHODS:
 
+    // For each of the win state methods we create a string out of the array corresponding to the win state
+    
     // Check Diagonal win states
     public static void checkDiagonal(String[][] multiDArray){
-        // CREATE A METHOD FOR THE FOLLOWING CODE:
+        // We create a String from the cells going from left to right diagonally and vice versa and then check if the String is equal to "xxx" or "ooo".
         String diagonalLeftToRight = "";
         String[] arrayDiagonalLeftToRight = {multiDArray[0][0], multiDArray[1][1], multiDArray[2][2]};
 
@@ -272,11 +278,7 @@ public class App {
         System.out.println("---------");
         for (int i = 0; i < multiDArray.length; i++) {
             String row = "";
-            for (int j = 0; j < multiDArray[i].length; j++) {
-//                if (multiDArray[i][j].equals("_")) {
-//                    multiDArray[i][j] = " ";
-//                }
-
+            for (int j = 0; j < multiDArray[i].length; j++) {z
                 row += multiDArray[i][j];
                 row += " ";
             }
